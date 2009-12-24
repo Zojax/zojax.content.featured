@@ -1,0 +1,77 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.content.featured">
+
+  <include file="permissions.zcml" />
+
+  <!-- extension -->
+  <zojax:extension
+     name="featured"
+     title="Featured"
+     description="Simple content featured(promoter) extension."
+     for=".interfaces.IContentFeaturable"
+     schema=".interfaces.IContentFeatured"
+     class=".extension.ContentFeaturedExtension"
+     permission="zojax.MakeFeatured">
+
+    <require
+       permission="zope.View"
+       attributes="enabled"
+       interface="zojax.content.type.interfaces.IItem" />
+  </zojax:extension>
+  
+  <!-- configlet-->
+  <zojax:configlet
+     name="content.featured"
+     title="Featured content"
+     description="This area allows you to configure and manage featured content."
+     class=".configlet.ContentFeaturedConfiglet"
+     schema=".interfaces.IContentFeaturedConfiglet"
+     permission="zojax.Configure">
+    <require
+       permission="zojax.Configure"
+       interface="zope.app.container.interfaces.IWriteContainer" />
+    <require
+       permission="zope.View"
+       interface="zojax.content.type.interfaces.IItem
+		  zope.app.container.interfaces.IReadContainer" />
+  </zojax:configlet>
+
+  <!-- vocabularies-->
+  <utility
+     name="content.featured.types"
+     factory=".vocabulary.FeaturedContentTypesVocabulary" />
+
+  <!-- portlet-->
+  <zojax:portlet
+     title="Featured content"
+     name="portlet.content.featured"
+     class=".portlet.ContentFeaturedPortlet"
+     schema=".interfaces.IContentFeaturedPortlet" />
+
+  <!-- rss feeds-->
+  <adapter
+     name="featured"
+     factory=".feeds.FeaturedRSSFeed" />
+
+  <class class=".feeds.FeaturedRSSFeed">
+    <require
+       permission="zope.View"
+       interface="zojax.content.feeds.interfaces.IFeed" />
+  </class>
+
+  <!-- activity -->
+  <include file="activity.zcml" />
+
+  <!-- catalog indexes -->
+  <include file="indexes.zcml" />
+
+  <!-- browser views-->
+  <include package=".browser" />
+
+  <!-- translations-->
+  <i18n:registerTranslations directory="locales" />
+
+</configure>

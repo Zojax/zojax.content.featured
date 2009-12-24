@@ -1,0 +1,8 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <utility
+     name="isFeatured"
+     component=".indexes.isFeatured"
+     provides="zojax.catalog.interfaces.ICatalogIndexFactory" />
+
+</configure>

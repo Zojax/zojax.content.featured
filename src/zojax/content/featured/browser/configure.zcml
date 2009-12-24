@@ -1,0 +1,46 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.content.featured">
+
+  <!-- featured browsing -->
+  <zojax:pagelet
+     name="featured"
+     for="zope.app.component.interfaces.ISite"
+     template="featured.pt"
+     class=".featured.FeaturedWorkspace"
+     permission="zope.View" />
+
+  <!-- edit content wizard -->
+  <zojax:pagelet
+     name="content.featured"
+     type="form.subform"
+     for="zojax.content.featured.interfaces.IContentFeaturable
+	  zojax.content.forms.interfaces.IContentStep"
+     class=".editwizard.FeaturedEditForm"
+     weight="100" />
+
+  <!-- portlet template -->
+  <zojax:pagelet
+     type="portlet.view"
+     for="..interfaces.IContentFeaturedPortlet"
+     template="featuredportlet.pt" />
+
+  <!-- icons -->
+  <browser:icon
+     name="zmi_icon"
+     for="..interfaces.IContentFeaturedConfiglet"
+     file="featured.png" />
+
+  <browser:icon
+     name="zmi_icon"
+     for="..interfaces.IFeaturedRSSFeed"
+     file="featured.png" />
+
+  <!-- styles -->
+  <zojax:resourceinclude
+     name="zojax-content-featured.css" library="zojax"
+     type="stylesheet" file="styles.css" filetype="zrt" />
+
+</configure>
