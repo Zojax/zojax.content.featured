@@ -1,0 +1,17 @@
+/* zrt-cssregistry: */
+
+@media all {
+
+  .portlet-content-featured {
+    background: transparent none;
+  }
+
+  .portlet-content-featured span {
+    padding-right: 0.25em;
+  }
+
+  .portlet-content-featured span a {
+    border: 0;
+  }
+
+}

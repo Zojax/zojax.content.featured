@@ -1,0 +1,31 @@
+<div class="z-portlet portlet-content-featured"
+     i18n:domain="zojax.content.featured"
+     tal:define="url string:${context/siteUrl}/@@featured">
+
+  <h2 class="z-portlet-header">
+    <a class="z-portlet-feed" title="Featured rss feed" i18n:attributes="title"
+       tal:attributes="href string:${context/siteUrl}/@@feeds/featured">
+      <img tal:attributes="src context/++resource++rss-icon.png" />
+    </a>
+    <tal:block content="python:context.label is None and context.title or context.label">Title</tal:block>
+  </h2>
+  
+  <div class="z-portlet-body">
+    <div tal:repeat="item context/items"
+         tal:attributes="class python:repeat['item'].odd() and
+                         'z-portlet-item odd' or 'z-portlet-item even'">
+      <tal:block content="structure item/item/@@zmi_icon" />
+      <a tal:content="item/item/title"
+         tal:attributes="href string:${item/item/@@absolute_url}/;
+                         title item/item/description"></a>
+      <div class="z-portlet-item-details"
+           tal:content="structure formatter:fancyDatetime,short:item/modified"></div>
+    </div>
+  </div>
+  
+  <div class="z-portlet-footer">
+    <a tal:attributes="href string:$url/"
+       i18n:translate="">More featured content...</a>
+  </div>
+  
+</div>

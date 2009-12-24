@@ -1,0 +1,16 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="zojax.content.featured">
+
+  <class class=".activity.FeaturedActivityRecord">
+    <require
+       permission="zope.Public"
+       interface=".interfaces.IFeaturedActivityRecord
+		  zojax.activity.interfaces.IActivityRecord" />
+  </class>
+
+  <utility
+     name="featured"
+     factory=".activity.FeaturedActivityRecordDescription" />
+
+</configure>

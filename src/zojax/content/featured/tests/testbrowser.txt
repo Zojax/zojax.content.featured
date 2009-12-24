@@ -1,0 +1,256 @@
+=============
+Browser tests
+=============
+
+    >>> from zope import interface, component, event
+    >>> from zope.testbrowser.testing import Browser
+    >>> from zope.app.component.hooks import setSite
+    >>> from zope.lifecycleevent import ObjectCreatedEvent, ObjectModifiedEvent
+    >>> from zojax.content.featured.interfaces \
+    ...      import IContentFeatured, IContentFeaturable, IContentFeaturedConfiglet
+    >>> from zojax.content.featured.tests.content import Content2, Content1
+
+    >>> root = getRootFolder()
+    >>> setSite(root)
+
+    >>> content11 = root['content11']
+    >>> content12 = root['content12']
+    >>> content21 = root['content21']
+    >>> content22 = root['content22']
+    >>> configlet = component.getUtility(IContentFeaturedConfiglet)
+
+    >>> admin = Browser()
+    >>> admin.addHeader("Authorization", "Basic mgr:mgrpw")
+    >>> admin.handleErrors = False
+
+
+Content featured configlet
+-------------------------
+
+    >>> interface.alsoProvides(content21, IContentFeaturable)
+    >>> interface.alsoProvides(content22, IContentFeaturable)
+    >>> event.notify(ObjectModifiedEvent(root['content21']))
+    >>> event.notify(ObjectModifiedEvent(root['content22']))
+
+    >>> list(configlet.listFeaturableContentTypes())
+    []
+
+    >>> interface.classImplements(Content2, IContentFeaturable)
+
+    >>> list(configlet.listFeaturableContentTypes())
+    [(u'', <zojax.content.type.contenttype.ContentType ...),
+    (u'tests.content2', <zojax.content.type.contenttype.ContentType object ...>)]
+
+
+Modify content
+--------------
+
+    >>> user = Browser()
+    >>> user.addHeader("Authorization", "Basic user:userpw")
+    >>> user.handleErrors = False
+
+    >>> user.open('http://localhost/content11/context.html')
+    >>> 'Featured' in user.contents
+    False
+
+let's mark content as featurable
+
+    >>> interface.alsoProvides(root['content11'], IContentFeaturable)
+
+    >>> IContentFeatured(content11).enabled
+    False
+    >>> IContentFeatured(content11).__parent__ is content11
+    True
+    >>> IContentFeatured(content11).enabled = None
+    >>> IContentFeatured(content11).enabled
+    False
+
+    >>> user.reload()
+    >>> print user.contents
+    <html>
+    ...
+    <div class="z-form-fieldset">
+        <div class="z-form-field">
+      <label for="form-widgets-enabled"
+             title="Featured content marker">Featured</label>
+      <span class="z-form-fieldRequired">&nbsp;</span>
+      <div class="z-form-help">Featured content marker</div>
+      <div>
+        <span class="option">
+          <label for="form-widgets-enabled-0">
+        <input id="form-widgets-enabled-0"
+               name="form.widgets.enabled:list"
+               class="radio-widget required bool-field"
+               value="true" type="radio" />
+        <span class="label">yes</span>
+      </label>
+      </span>
+      <span class="option">
+      <label for="form-widgets-enabled-1">
+        <input id="form-widgets-enabled-1"
+               name="form.widgets.enabled:list"
+               class="radio-widget required bool-field"
+               value="false" checked="checked" type="radio" />
+        <span class="label">no</span>
+      </label>
+    </span>
+    <input name="form.widgets.enabled-empty-marker"
+           type="hidden" value="1" />
+    </div>
+    </div>
+    ...
+    </html>
+
+    >>> user.getControl(name='form.widgets.enabled:list').value = ['true']
+    >>> user.getControl(name="content.edit.buttons.save").click()
+
+    >>> from transaction import commit
+    >>> commit()
+
+    >>> IContentFeatured(content11).enabled
+    True
+
+    >>> list(configlet.getContentTypeFeatured())
+    [<zojax.content.featured.tests.content.Content1 object ...>]
+
+
+tags for 'Content2' type
+
+    >>> interface.alsoProvides(content21, IContentFeaturable)
+    >>> interface.alsoProvides(content22, IContentFeaturable)
+
+    >>> user.open('http://localhost/content21/context.html')
+    >>> user.getControl(name='form.widgets.enabled:list').value = ['true']
+    >>> user.getControl(name="content.edit.buttons.save").click()
+
+
+    >>> list(configlet.getContentTypeFeatured())
+    [<zojax.content.featured.tests.content.Content2 object ...>,
+    <zojax.content.featured.tests.content.Content1 object ...]
+
+Featured browser
+------------
+
+List of all featured content
+
+    >>> user.open('http://localhost/@@featured/')
+    >>> print user.contents
+    <html>
+    ...
+    ...<h1 class="z-content-title">Featured</h1>...
+      <ul class="z-listing">
+        <li class="even">
+          <a href="tests.content2/">Content2</a>
+          <div class="byline"></div>
+        </li>
+    </ul></div>div></div></div></div>
+    ...
+    </html>
+
+Tag content rss feed
+--------------------
+
+    >>> user.open('http://localhost/@@feeds/featured')
+    >>> print user.contents
+    <?xml version="1.0" encoding="UTF-8"?>
+    <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+      <channel>
+        <title>Featured</title>
+        <link>http://localhost/</link>
+        <description>List of all available featured content.</description>
+        <atom:link rel="self" type="application/rss+xml"
+                   href="http://localhost/@@feeds/featured"/>
+        <item>
+          <title></title>
+          <description></description>
+          <guid isPermaLink="true">http://localhost/content21/</guid>
+          <pubDate>...</pubDate>
+        </item>
+        <item>
+          <title></title>
+          <description></description>
+          <guid isPermaLink="true">http://localhost/content11/</guid>
+          <pubDate>...</pubDate>
+        </item>
+      </channel>
+    </rss>
+
+Featured portlet
+------------
+
+    >>> user.open('http://localhost/portlet')
+    >>> print user.contents
+    <html>
+    ...
+        <div id="z-portal-workspace"><div id="z-portal-viewspace"><div id="z-content"><div class="z-portlet portlet-content-featured">
+      <h2 class="z-portlet-header">
+        <a class="z-portlet-feed" title="Featured rss feed" href="http://localhost/@@feeds/featured">
+          <img src="http://localhost/@@/rss-icon.png" />
+        </a>
+        Featured content
+    </h2>
+      <div class="z-portlet-body">
+        <div class="z-portlet-item even">
+          <img src="http://localhost/@@/zojax-content-type-interfaces-IContent-zmi_icon.png" alt="Content" width="16" height="16" border="0" />
+    <a href="http://localhost/content21/" title=""></a>
+          <div class="z-portlet-item-details">...</div>
+        </div> <div class="z-portlet-item odd">
+          <img src="http://localhost/@@/zojax-content-type-interfaces-IContent-zmi_icon.png" alt="Content" width="16" height="16" border="0" />
+    <a href="http://localhost/content11/" title=""></a>
+          <div class="z-portlet-item-details">...</div>
+        </div>
+      </div>
+      <div class="z-portlet-footer">
+        <a href="http://localhost/@@featured/">More featured content...</a>
+      </div>
+    </div></div></div></div>
+    ...
+    </html>
+
+
+
+Featured rss feed
+-------------
+
+    >>> user.open('http://localhost/@@feeds/featured')
+    >>> print user.contents
+    <?xml version="1.0" encoding="UTF-8"?>
+    <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+      <channel>
+        <title>Featured</title>
+        <link>http://localhost/</link>
+        <description>List of all available featured content.</description>
+        <atom:link rel="self" type="application/rss+xml"
+                   href="http://localhost/@@feeds/featured"/>
+        <item>
+          <title></title>
+          <description></description>
+          <guid isPermaLink="true">http://localhost/content21/</guid>
+          <pubDate>...</pubDate>
+        </item>
+        <item>
+          <title></title>
+          <description></description>
+          <guid isPermaLink="true">http://localhost/content11/</guid>
+          <pubDate>...</pubDate>
+        </item>
+      </channel>
+    </rss>
+
+
+Remove content
+--------------
+
+    >>> del root['content21']
+    >>> list(configlet.getContentTypeFeatured())
+    [<zojax.content.featured.tests.content.Content1 object ...>]
+
+    >>> del root['content22']
+    >>> del root['content11']
+
+    >>> list(configlet.getContentTypeFeatured())
+    []
+
+
+    >>> setSite(None)
+
