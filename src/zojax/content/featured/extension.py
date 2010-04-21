@@ -32,6 +32,8 @@ class ContentFeaturedExtension(object):
     @setproperty
     def enabled(self, value):
         context = removeAllProxies(self.context)
+        
+        del self.data['enabled']
 
         if value is None or not value:
             if IContentFeaturedAware.providedBy(context):
