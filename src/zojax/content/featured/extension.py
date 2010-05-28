@@ -27,20 +27,16 @@ class ContentFeaturedExtension(object):
 
     @getproperty
     def enabled(self):
-        return self.data.get('enabled', IContentFeatured['enabled'].default)
+        context = removeAllProxies(self.context)
+        return IContentFeaturedAware.providedBy(context)
 
     @setproperty
     def enabled(self, value):
         context = removeAllProxies(self.context)
-        
-        del self.data['enabled']
 
         if value is None or not value:
             if IContentFeaturedAware.providedBy(context):
                 interface.noLongerProvides(context, IContentFeaturedAware)
-            self.data['enabled'] = False
         else:
             if not IContentFeaturedAware.providedBy(context):
                 interface.alsoProvides(context, IContentFeaturedAware)
-
-            self.data['enabled'] = value
