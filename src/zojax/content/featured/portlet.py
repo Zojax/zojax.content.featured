@@ -54,6 +54,8 @@ class ContentFeaturedPortlet(object):
             if '__all__' not in self.spaces:
                 query['contentSpaces']= {'any_of': self.spaces}
 
-            results = catalog.searchResults(**query)[:self.count]
-            if results:
-                self.items = results
+            results = []
+            for item in catalog.searchResults(**query)[:self.count]:
+                results.append({'item': item,
+                                'modified': IDCTimes(item).modified})
+            self.items = results
