@@ -11,6 +11,8 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from zojax.catalog.interfaces import ICatalog
+from zope.app.intid.interfaces import IIntIds
 """
 
 $Id$
@@ -34,16 +36,21 @@ class ContentFeaturedPortlet(object):
         return bool(self.items)
 
     def update(self):
-        configlet = getUtility(IContentFeaturedConfiglet)
-        cnt = 0
-        items = []
-        for item in configlet.getContentTypeFeatured(self.contentTypes):
-            items.append({'item': item,
-                          'modified': IDCTimes(item).modified})
-            cnt += 1
-            if self.count is not None and self.count and self.count <= cnt:
-                break
-        self.items = items
-        self.siteUrl = absoluteURL(getSite(), self.request)
+        self.site = getSite()
+        catalog = queryUtility(ICatalog)
+        if catalog is not None:
+            ids = queryUtility(IIntIds)
+            query = dict(isDraft={'any_of': (False,)},
+                         searchContext=getRoot(self.site),
+                         isFeatured={'any_of': (True,)},
+                         sort_order='reverse', sort_on=self.index)
 
-        super(ContentFeaturedPortlet, self).update()
+            if self.contentTypes:
+                query['type'] = {'any_of': self.contentTypes,}
+
+            if '__all__' not in self.spaces:
+                query['contentSpaces']= {'any_of': self.spaces}
+
+            results = catalog.searchResults(**query)[:self.number]
+            if results:
+                self.items = results

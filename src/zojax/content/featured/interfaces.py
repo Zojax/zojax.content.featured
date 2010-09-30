@@ -64,11 +64,19 @@ class IContentFeaturedPortlet(interface.Interface):
         required = True)
 
     contentTypes = CheckboxList(
-        title = _(u'Featured conten types'),
+        title = _(u'Featured content types'),
         description = _(u'Select featured types to use in this portlet.'),
         vocabulary = 'content.featured.types',
         default = [],
         required = False)
+
+    spaces = schema.List(
+        title = _(u'Spaces'),
+        description = _('Spaces to list in portlet.'),
+        value_type = schema.Choice(
+            vocabulary='content.space.spaces'),
+        default = ['__all__'],
+        required = True)
 
 
 class IFeaturedRSSFeed(IRSS2Feed):
