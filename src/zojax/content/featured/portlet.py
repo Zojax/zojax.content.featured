@@ -32,6 +32,7 @@ class ContentFeaturedPortlet(object):
 
     items = []
     siteUrl = None
+    index = 'modified'
 
     def isAvailable(self):
         return bool(self.items)
