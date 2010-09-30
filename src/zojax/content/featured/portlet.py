@@ -13,6 +13,7 @@
 ##############################################################################
 from zojax.catalog.interfaces import ICatalog
 from zope.app.intid.interfaces import IIntIds
+from zope.traversing.api import getRoot
 """
 
 $Id$
