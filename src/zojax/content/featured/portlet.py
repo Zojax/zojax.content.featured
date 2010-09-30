@@ -37,6 +37,7 @@ class ContentFeaturedPortlet(object):
 
     def update(self):
         self.site = getSite()
+        self.siteUrl = absoluteURL(self.site, self.request)
         catalog = queryUtility(ICatalog)
         if catalog is not None:
             ids = queryUtility(IIntIds)
