@@ -18,7 +18,7 @@ from zope.app.intid.interfaces import IIntIds
 $Id$
 """
 from zope import interface
-from zope.component import getUtility
+from zope.component import getUtility, queryUtility
 from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
 from zope.dublincore.interfaces import IDCTimes
