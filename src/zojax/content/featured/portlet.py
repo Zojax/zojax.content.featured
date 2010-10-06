@@ -44,7 +44,7 @@ class ContentFeaturedPortlet(object):
         if catalog is not None:
             ids = queryUtility(IIntIds)
             query = dict(isDraft={'any_of': (False,)},
-                         #searchContext=getRoot(self.site),
+                         searchContext=getRoot(self.site),
                          isFeatured={'any_of': (True,)},
                          sort_order='reverse', sort_on=self.index)
 
