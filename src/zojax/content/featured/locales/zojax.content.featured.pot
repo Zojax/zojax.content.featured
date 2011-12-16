@@ -1,0 +1,110 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Thu Dec  8 22:35:43 2011\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/content/featured/activity.py:33
+msgid "made featured"
+msgstr ""
+
+#: src/zojax/content/featured/activity.py:39
+#: src/zojax/content/featured/feeds.py:36
+#: src/zojax/content/featured/interfaces.py:30
+#: src/zojax/content/featured/configure.zcml:10
+#: src/zojax/content/featured/browser/featured.pt:1
+msgid "Featured"
+msgstr ""
+
+#: src/zojax/content/featured/activity.py:40
+msgid "Content object was made featured."
+msgstr ""
+
+#: src/zojax/content/featured/browser/featuredportlet.pt:27
+msgid "More featured content..."
+msgstr ""
+
+#: src/zojax/content/featured/browser/featuredportlet.pt:6
+msgid "Featured rss feed"
+msgstr ""
+
+#: src/zojax/content/featured/configlet.py:31
+msgid "Content featured"
+msgstr ""
+
+#: src/zojax/content/featured/configure.zcml:10
+msgid "Simple content featured(promoter) extension."
+msgstr ""
+
+#: src/zojax/content/featured/configure.zcml:26
+msgid "This area allows you to configure and manage featured content."
+msgstr ""
+
+#: src/zojax/content/featured/configure.zcml:26
+#: src/zojax/content/featured/configure.zcml:48
+msgid "Featured content"
+msgstr ""
+
+#: src/zojax/content/featured/feeds.py:37
+msgid "List of all available featured content."
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:31
+msgid "Featured content marker"
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:57
+msgid "Label"
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:61
+msgid "Featured count"
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:62
+msgid "Number of featured content items in portlet."
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:67
+msgid "Featured content types"
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:68
+msgid "Select featured types to use in this portlet."
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:74
+msgid "Spaces"
+msgstr ""
+
+#: src/zojax/content/featured/interfaces.py:75
+msgid "Spaces to list in portlet."
+msgstr ""
+
+#: src/zojax/content/featured/permissions.zcml:7
+msgid "Allow to make content featured."
+msgstr ""
+
+#: src/zojax/content/featured/permissions.zcml:7
+msgid "Make content featured"
+msgstr ""
+
