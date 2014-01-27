@@ -137,15 +137,12 @@ List of all featured content
     >>> print user.contents
     <html>
     ...
-    ...<h1 class="z-content-title">Featured</h1>...
-      <ul class="z-listing">
-        <li class="even">
+        <div id="z-portal-workspace"><div id="z-portal-viewspace"><div id="z-content"><h1 class="z-content-title">Featured</h1><div>
+    ...
           <a href="tests.content2/">Content2</a>
-          <div class="byline"></div>
-        </li>
-    </ul></div>div></div></div></div>
     ...
     </html>
+
 
 Tag content rss feed
 --------------------
@@ -155,25 +152,28 @@ Tag content rss feed
     <?xml version="1.0" encoding="UTF-8"?>
     <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
       <channel>
-        <title>Featured</title>
+        <title>Featured
+    </title>
         <link>http://localhost/</link>
         <description>List of all available featured content.</description>
         <atom:link rel="self" type="application/rss+xml"
                    href="http://localhost/@@feeds/featured"/>
         <item>
           <title></title>
-          <description></description>
+          <description type="html"><![CDATA[]]></description>
           <guid isPermaLink="true">http://localhost/content21/</guid>
           <pubDate>...</pubDate>
         </item>
         <item>
           <title></title>
-          <description></description>
+          <description type="html"><![CDATA[]]></description>
           <guid isPermaLink="true">http://localhost/content11/</guid>
           <pubDate>...</pubDate>
         </item>
       </channel>
     </rss>
+    <BLANKLINE>
+
 
 Featured portlet
 ------------
@@ -181,29 +181,23 @@ Featured portlet
     >>> user.open('http://localhost/portlet')
     >>> print user.contents
     <html>
+      <body>
     ...
-        <div id="z-portal-workspace"><div id="z-portal-viewspace"><div id="z-content"><div class="z-portlet portlet-content-featured">
-      <h2 class="z-portlet-header">
-        <a class="z-portlet-feed" title="Featured rss feed" href="http://localhost/@@feeds/featured">
-          <img src="http://localhost/@@/rss-icon.png" />
-        </a>
         Featured content
-    </h2>
+      </h2>
       <div class="z-portlet-body">
         <div class="z-portlet-item even">
           <img src="http://localhost/@@/zojax-content-type-interfaces-IContent-zmi_icon.png" alt="Content" width="16" height="16" border="0" />
-    <a href="http://localhost/content21/" title=""></a>
+          <a href="http://localhost/content21/" title=""></a>
           <div class="z-portlet-item-details">...</div>
         </div> <div class="z-portlet-item odd">
           <img src="http://localhost/@@/zojax-content-type-interfaces-IContent-zmi_icon.png" alt="Content" width="16" height="16" border="0" />
-    <a href="http://localhost/content11/" title=""></a>
+          <a href="http://localhost/content11/" title=""></a>
           <div class="z-portlet-item-details">...</div>
         </div>
       </div>
       <div class="z-portlet-footer">
         <a href="http://localhost/@@featured/">More featured content...</a>
-      </div>
-    </div></div></div></div>
     ...
     </html>
 
@@ -217,26 +211,27 @@ Featured rss feed
     <?xml version="1.0" encoding="UTF-8"?>
     <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
       <channel>
-        <title>Featured</title>
+        <title>Featured
+    </title>
         <link>http://localhost/</link>
         <description>List of all available featured content.</description>
         <atom:link rel="self" type="application/rss+xml"
                    href="http://localhost/@@feeds/featured"/>
         <item>
           <title></title>
-          <description></description>
+          <description type="html"><![CDATA[]]></description>
           <guid isPermaLink="true">http://localhost/content21/</guid>
           <pubDate>...</pubDate>
         </item>
         <item>
           <title></title>
-          <description></description>
+          <description type="html"><![CDATA[]]></description>
           <guid isPermaLink="true">http://localhost/content11/</guid>
           <pubDate>...</pubDate>
         </item>
       </channel>
     </rss>
-
+    <BLANKLINE>
 
 Remove content
 --------------
